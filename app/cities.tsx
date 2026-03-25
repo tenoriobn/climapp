@@ -10,12 +10,14 @@ const Cities = () => {
       <ScrollView>
         <View style={style.scrollList}>
           {citiesData.map((city, index) => (
-            <View style={style.listItem} key={index}>
+            <View style={style.listItem} key={city.city}>
               <Image
                 source={require("../assets/images/clouds.png")}
                 style={style.cityImage}
               />
-              <Text style={style.cityName}>{city.city}</Text>
+              <Text style={style.cityName}>
+                {city.city.replace(", ", " - ")}
+              </Text>
               <Text style={style.cityTemp}>{city.temp}º</Text>
             </View>
           ))}
