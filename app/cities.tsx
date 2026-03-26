@@ -1,12 +1,44 @@
 import { LinearGradient } from "expo-linear-gradient";
-import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  TextInput,
+} from "react-native";
 import citiesData from "../data/cities.json";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { useEffect, useState } from "react";
 
 const Cities = () => {
-  console.log(citiesData);
+  const [search, setSearch] = useState("");
+  const [filteredCities, setFilteredCities] = useState(citiesData);
+
+  useEffect(() => {
+    const newFilteredCites = citiesData.filter((city) =>
+      city.city.includes(search),
+    );
+
+    setFilteredCities(newFilteredCites);
+  }, [search]);
+
+  useEffect(() => {
+    console.log({ filteredCities });
+  }, [filteredCities]);
 
   return (
     <LinearGradient colors={["#00457D", "#05051F"]} style={style.container}>
+      <View style={style.inputContainer}>
+        <TextInput
+          placeholder="Digite a cidade"
+          placeholderTextColor={"#fff"}
+          value={search}
+          onChangeText={(value) => setSearch(value)}
+        />
+        <MaterialIcons name="search" size={18} color={"#fff"} />
+      </View>
+
       <ScrollView>
         <View style={style.scrollList}>
           {citiesData.map((city, index) => (
@@ -33,6 +65,7 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 16,
+    paddingTop: 40,
   },
   scrollList: {
     gap: 16,
@@ -60,5 +93,20 @@ const style = StyleSheet.create({
   cityImage: {
     width: 27,
     height: 24,
+  },
+  inputContainer: {
+    height: 35,
+    width: "100%",
+    backgroundColor: "rgba(255, 255, 255, 0.15)",
+    borderRadius: 24,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+  },
+  input: {
+    color: "#fff",
+    fontSize: 16,
+    fontFamily: "Montserrat_500Medium",
   },
 });
