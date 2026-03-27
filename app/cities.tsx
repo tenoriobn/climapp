@@ -17,7 +17,7 @@ const Cities = () => {
 
   useEffect(() => {
     const newFilteredCites = citiesData.filter((city) =>
-      city.city.includes(search),
+      city.city.toLocaleLowerCase().includes(search.toLocaleLowerCase()),
     );
 
     setFilteredCities(newFilteredCites);
@@ -35,13 +35,14 @@ const Cities = () => {
           placeholderTextColor={"#fff"}
           value={search}
           onChangeText={(value) => setSearch(value)}
+          style={style.input}
         />
         <MaterialIcons name="search" size={18} color={"#fff"} />
       </View>
 
       <ScrollView>
         <View style={style.scrollList}>
-          {citiesData.map((city, index) => (
+          {filteredCities.map((city) => (
             <View style={style.listItem} key={city.city}>
               <Image
                 source={require("../assets/images/clouds.png")}
@@ -66,6 +67,22 @@ const style = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
     paddingTop: 40,
+  },
+  inputContainer: {
+    height: 50,
+    width: "100%",
+    backgroundColor: "rgba(255, 255, 255, 0.15)",
+    borderRadius: 24,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+    marginBottom: 16,
+  },
+  input: {
+    color: "#fff",
+    fontSize: 16,
+    fontFamily: "Montserrat_500Medium",
   },
   scrollList: {
     gap: 16,
@@ -93,20 +110,5 @@ const style = StyleSheet.create({
   cityImage: {
     width: 27,
     height: 24,
-  },
-  inputContainer: {
-    height: 35,
-    width: "100%",
-    backgroundColor: "rgba(255, 255, 255, 0.15)",
-    borderRadius: 24,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 16,
-  },
-  input: {
-    color: "#fff",
-    fontSize: 16,
-    fontFamily: "Montserrat_500Medium",
   },
 });
