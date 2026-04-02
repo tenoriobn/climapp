@@ -1,7 +1,8 @@
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 
 const CityDetails = () => {
   const searchParams = useLocalSearchParams();
@@ -29,7 +30,32 @@ const CityDetails = () => {
   return (
     <LinearGradient colors={["#00457D", "#05051F"]} style={style.container}>
       <View style={style.headerContainer}>
+        <MaterialIcons
+          name="chevron-left"
+          size={24}
+          color={"#fff"}
+          style={style.headerIcon}
+        />
         <Text style={style.headerTitle}>{cityDetails.city}</Text>
+      </View>
+
+      <View style={style.card}>
+        <View style={style.cardHeader}>
+          <Text style={style.cardHeaderTitle}>Hoje</Text>
+          <Text style={style.cardHeaderTitle}>{cityDetails.date}</Text>
+        </View>
+
+        <View style={style.cardBox}>
+          <Image
+            source={require("../assets/images/clouds.png")}
+            style={style.cardImage}
+          />
+
+          <View>
+            <Text style={style.cardTemperature}>{cityDetails.temp}º</Text>
+            <Text style={style.cardDescription}>{cityDetails.description}</Text>
+          </View>
+        </View>
       </View>
     </LinearGradient>
   );
@@ -40,6 +66,7 @@ const style = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
     paddingTop: 40,
+    gap: 40,
   },
   headerContainer: {
     alignItems: "center",
@@ -49,7 +76,49 @@ const style = StyleSheet.create({
   headerTitle: {
     color: "#fff",
     fontSize: 20,
-    fontFamily: "Montserrat_500Medium",
+    fontFamily: "Montserrat_600SemiBold",
+  },
+  card: {
+    width: "100%",
+    borderRadius: 24,
+    backgroundColor: "#4463D5",
+    padding: 16,
+    gap: 24,
+  },
+  cardHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+  },
+  cardHeaderTitle: {
+    color: "#fff",
+    fontSize: 16,
+    fontFamily: "Montserrat_600SemiBold",
+  },
+  headerIcon: {
+    position: "absolute",
+    left: 0,
+  },
+  cardImage: {
+    width: 72,
+    height: 64,
+  },
+  cardTemperature: {
+    color: "#fff",
+    fontSize: 44,
+    fontFamily: "Montserrat_700Bold",
+    textAlign: "center",
+  },
+  cardDescription: {
+    color: "#fff",
+    fontSize: 14,
+    fontFamily: "Montserrat_400Regular",
+    textAlign: "center",
+  },
+  cardBox: {
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 
