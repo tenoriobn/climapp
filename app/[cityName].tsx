@@ -1,10 +1,11 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { LinearGradient } from "expo-linear-gradient";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const CityDetails = () => {
+  const router = useRouter();
   const searchParams = useLocalSearchParams();
   const [cityDetails, setCityDetails] = useState(null);
 
@@ -27,61 +28,64 @@ const CityDetails = () => {
     handleData();
   }, []);
 
+  if (!cityDetails) {
+    return (
+      <LinearGradient colors={["#00457D", "#05051F"]} style={style.container} />
+    );
+  }
+
   return (
-    <>
-      {cityDetails && (
-        <LinearGradient colors={["#00457D", "#05051F"]} style={style.container}>
-          <View style={style.headerContainer}>
-            <MaterialIcons
-              name="chevron-left"
-              size={24}
-              color={"#fff"}
-              style={style.headerIcon}
-            />
-            <Text style={style.headerTitle}>{cityDetails.city}</Text>
+    <LinearGradient colors={["#00457D", "#05051F"]} style={style.container}>
+      <View style={style.headerContainer}>
+        <TouchableOpacity
+          style={style.headerIcon}
+          onPress={() => {
+            router.back();
+          }}
+        >
+          <MaterialIcons name="chevron-left" size={24} color={"#fff"} />
+        </TouchableOpacity>
+
+        <Text style={style.headerTitle}>{cityDetails.city}</Text>
+      </View>
+
+      <View style={style.card}>
+        <View style={style.cardHeader}>
+          <Text style={style.cardHeaderTitle}>Hoje</Text>
+          <Text style={style.cardHeaderTitle}>{cityDetails.date}</Text>
+        </View>
+
+        <View style={style.cardBox}>
+          <Image
+            source={require("../assets/images/clouds.png")}
+            style={style.cardImage}
+          />
+
+          <View>
+            <Text style={style.cardTemperature}>{cityDetails.temp}º</Text>
+            <Text style={style.cardDescription}>{cityDetails.description}</Text>
+          </View>
+        </View>
+
+        <View style={style.rowBox}>
+          <View style={style.row}>
+            <Image source={require("../assets/icons/humidity.png")} />
+
+            <Text style={style.rowTitle}>Humidity:</Text>
+            <Text style={style.rowValue}>{cityDetails.humidity}%</Text>
           </View>
 
-          <View style={style.card}>
-            <View style={style.cardHeader}>
-              <Text style={style.cardHeaderTitle}>Hoje</Text>
-              <Text style={style.cardHeaderTitle}>{cityDetails.date}</Text>
-            </View>
+          <View style={style.row}>
+            <Image source={require("../assets/icons/temperature.png")} />
 
-            <View style={style.cardBox}>
-              <Image
-                source={require("../assets/images/clouds.png")}
-                style={style.cardImage}
-              />
-
-              <View>
-                <Text style={style.cardTemperature}>{cityDetails.temp}º</Text>
-                <Text style={style.cardDescription}>
-                  {cityDetails.description}
-                </Text>
-              </View>
-            </View>
-
-            <View style={style.rowBox}>
-              <View style={style.row}>
-                <Image source={require("../assets/icons/humidity.png")} />
-
-                <Text style={style.rowTitle}>Humidity:</Text>
-                <Text style={style.rowValue}>{cityDetails.humidity}%</Text>
-              </View>
-
-              <View style={style.row}>
-                <Image source={require("../assets/icons/temperature.png")} />
-
-                <Text style={style.rowTitle}>Min/Max:</Text>
-                <Text style={style.rowValue}>
-                  {cityDetails.forecast[0].min}/{cityDetails.forecast[0].max}
-                </Text>
-              </View>
-            </View>
+            <Text style={style.rowTitle}>Min/Max:</Text>
+            <Text style={style.rowValue}>
+              {cityDetails.forecast[0].min}/{cityDetails.forecast[0].max}
+            </Text>
           </View>
-        </LinearGradient>
-      )}
-    </>
+        </View>
+      </View>
+    </LinearGradient>
   );
 };
 
@@ -123,6 +127,7 @@ const style = StyleSheet.create({
   headerIcon: {
     position: "absolute",
     left: 0,
+    zIndex: 10,
   },
   cardImage: {
     width: 72,

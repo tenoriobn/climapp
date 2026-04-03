@@ -76,6 +76,7 @@ const style = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
     paddingTop: 40,
+    gap: 20,
   },
   inputContainer: {
     height: 50,
