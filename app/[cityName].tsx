@@ -28,36 +28,60 @@ const CityDetails = () => {
   }, []);
 
   return (
-    <LinearGradient colors={["#00457D", "#05051F"]} style={style.container}>
-      <View style={style.headerContainer}>
-        <MaterialIcons
-          name="chevron-left"
-          size={24}
-          color={"#fff"}
-          style={style.headerIcon}
-        />
-        <Text style={style.headerTitle}>{cityDetails.city}</Text>
-      </View>
-
-      <View style={style.card}>
-        <View style={style.cardHeader}>
-          <Text style={style.cardHeaderTitle}>Hoje</Text>
-          <Text style={style.cardHeaderTitle}>{cityDetails.date}</Text>
-        </View>
-
-        <View style={style.cardBox}>
-          <Image
-            source={require("../assets/images/clouds.png")}
-            style={style.cardImage}
-          />
-
-          <View>
-            <Text style={style.cardTemperature}>{cityDetails.temp}º</Text>
-            <Text style={style.cardDescription}>{cityDetails.description}</Text>
+    <>
+      {cityDetails && (
+        <LinearGradient colors={["#00457D", "#05051F"]} style={style.container}>
+          <View style={style.headerContainer}>
+            <MaterialIcons
+              name="chevron-left"
+              size={24}
+              color={"#fff"}
+              style={style.headerIcon}
+            />
+            <Text style={style.headerTitle}>{cityDetails.city}</Text>
           </View>
-        </View>
-      </View>
-    </LinearGradient>
+
+          <View style={style.card}>
+            <View style={style.cardHeader}>
+              <Text style={style.cardHeaderTitle}>Hoje</Text>
+              <Text style={style.cardHeaderTitle}>{cityDetails.date}</Text>
+            </View>
+
+            <View style={style.cardBox}>
+              <Image
+                source={require("../assets/images/clouds.png")}
+                style={style.cardImage}
+              />
+
+              <View>
+                <Text style={style.cardTemperature}>{cityDetails.temp}º</Text>
+                <Text style={style.cardDescription}>
+                  {cityDetails.description}
+                </Text>
+              </View>
+            </View>
+
+            <View style={style.rowBox}>
+              <View style={style.row}>
+                <Image source={require("../assets/icons/humidity.png")} />
+
+                <Text style={style.rowTitle}>Humidity:</Text>
+                <Text style={style.rowValue}>{cityDetails.humidity}%</Text>
+              </View>
+
+              <View style={style.row}>
+                <Image source={require("../assets/icons/temperature.png")} />
+
+                <Text style={style.rowTitle}>Min/Max:</Text>
+                <Text style={style.rowValue}>
+                  {cityDetails.forecast[0].min}/{cityDetails.forecast[0].max}
+                </Text>
+              </View>
+            </View>
+          </View>
+        </LinearGradient>
+      )}
+    </>
   );
 };
 
@@ -119,6 +143,25 @@ const style = StyleSheet.create({
   cardBox: {
     alignItems: "center",
     justifyContent: "center",
+  },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
+  rowTitle: {
+    color: "#fff",
+    fontSize: 16,
+    fontFamily: "Montserrat_600SemiBold",
+  },
+  rowValue: {
+    color: "#fff",
+    fontSize: 16,
+    fontFamily: "Montserrat_500Medium",
+    marginLeft: "auto",
+  },
+  rowBox: {
+    gap: 8,
   },
 });
 
